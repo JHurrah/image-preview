@@ -1,0 +1,18 @@
+#dropzone{
+    position: absolute;
+    margin: auto;
+
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 124px;
+    height: 124px;
+
+    text-align: center;
+    line-height: 124px;
+
+    border: 1px solid grey;
+    border-radius: 50%;
+}
