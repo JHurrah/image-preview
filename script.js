@@ -1,40 +1,38 @@
+(function(document){
 
-function dragenter(e) {
-    e.stopPropagation();
-    e.preventDefault();
-}
+    var preventDefault = function(e){
+        e.stopPropagation();
+        e.preventDefault();
+    };
 
-function dragover(e) {
-    e.stopPropagation();
-    e.preventDefault();
-}
+    var drop = function(e) {
+        e.stopPropagation();
+        e.preventDefault();
 
-function drop(e) {
-    e.stopPropagation();
-    e.preventDefault();
+        var transfer = e.dataTransfer;
+        var files = transfer.files;
 
-    var transfer = e.dataTransfer;
-    var files = transfer.files;
+        handleFiles(files);
+    };
 
-    handleFiles(files);
-}
+    var handleFiles = function(files) {
+        var preview = document.getElementById('imagePreview');
+        var reader  = new FileReader();
 
-var dropzone = document.getElementById('dropzone');
-dropzone.addEventListener("dragenter", dragenter, false);
-dropzone.addEventListener("dragover", dragover, false);
-dropzone.addEventListener("drop", drop, false);
+        reader.onloadend = function () {
+            preview.src = reader.result;
+        };
 
-function handleFiles(files) {
-    var preview = document.getElementById('imagePreview');
-    var reader  = new FileReader();
+        if (files[0]) {
+            reader.readAsDataURL(files[0]);
+        } else {
+            preview.src = "";
+        }
+    };
 
-    reader.onloadend = function () {
-        preview.src = reader.result;
-    }
+    var dropzone = document.getElementById('dropzone');
 
-    if (files[0]) {
-        reader.readAsDataURL(files[0]);
-    } else {
-        preview.src = "";
-    }
-}
+    dropzone.addEventListener("dragenter", preventDefault, false);
+    dropzone.addEventListener("dragover", preventDefault, false);
+    dropzone.addEventListener("drop", drop, false);
+}(document));
